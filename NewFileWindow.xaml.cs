@@ -15,20 +15,20 @@ using System.Windows.Shapes;
 namespace FileMangement
 {
     /// <summary>
-    /// OptionsWindow.xaml 的交互逻辑
+    /// NewFileWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class OptionsWindow : Window
+    public partial class NewFileWindow : Window
     {
-        public int _blockNum;
+        public string _newFileName;
 
-        public OptionsWindow()
+        public NewFileWindow()
         {
             InitializeComponent();
         }
 
-        private void BlockNumText_TextChanged(object sender, TextChangedEventArgs e)
+        private void NewFileName_Text_TextChanged(object sender, TextChangedEventArgs e)
         {
-            _blockNum = Convert.ToInt16(BlockNumText.Text);
+            _newFileName = NewFileName_Text.Text;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

@@ -1,0 +1,16 @@
+﻿<Window x:Class="FileMangement.NewFileWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FileMangement"
+        mc:Ignorable="d"
+        Title="NewFileWindow" Height="450" Width="800">
+    <Grid>
+        
+        <TextBox Name="NewFileName_Text" HorizontalAlignment="Left" Height="35" Margin="71,117.5,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="251" FontSize="22" TextChanged="NewFileName_Text_TextChanged" Grid.Row="1"/>
+        <Label Content="请输入文件名：" HorizontalAlignment="Left" Margin="71,81.5,0,0" VerticalAlignment="Top" Height="36" Width="194" FontSize="20" Grid.Row="1"/>
+        <Button Content="确认" HorizontalAlignment="Left" Margin="71,253,0,0" VerticalAlignment="Top" Width="166" Height="41" Click="Button_Click"/>
+
+    </Grid>
+</Window>

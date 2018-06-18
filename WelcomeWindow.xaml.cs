@@ -20,6 +20,8 @@ namespace FileMangement
     /// </summary>
     public partial class WelcomeWindow : Window
     {
+        public int _systemModel = -1;                //1表示新建系统；2表示加载系统
+
         public WelcomeWindow()
         {
             InitializeComponent();
@@ -27,23 +29,20 @@ namespace FileMangement
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
-            OptionsWindow win = new OptionsWindow();
+            //在MainWindow中打开Options窗体设置初始值
+            _systemModel = 1;
+
             this.Close();
-
-            win.ShowDialog();
-
         }
 
         private void LoadButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            //在Mainwindow中根据文件信息复刻上一版本的文件系统
+            _systemModel = 2;
 
-            /*
-            StreamReader sr = new StreamReader("test.dat");
-            string abc = sr.ReadToEnd();
-            sr.Dispose();
-            Console.WriteLine(abc);
-            */
+            //打开浏览窗口，加载文件
+
+            this.Close();
 
         }
     }
