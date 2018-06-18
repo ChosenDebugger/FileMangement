@@ -1,0 +1,14 @@
+﻿<Window x:Class="FileMangement.WelcomeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FileMangement"
+        mc:Ignorable="d"
+        Title="WelcomeWindow" Height="330" Width="400">
+    <Grid Margin="0,0,3.333,-19.333" Height="320" VerticalAlignment="Top">
+        <Label Content="Welcome" HorizontalAlignment="Left" Margin="89,82,0,0" VerticalAlignment="Top" Height="75" Width="230" FontSize="48"/>
+        <Button Content="New" Name="NewButton" HorizontalAlignment="Left" Margin="89,210,0,0" VerticalAlignment="Top" Width="90" Height="40" Click="NewButton_Click"/>
+        <Button Content="Load" Name="LoadButton" HorizontalAlignment="Left" Margin="229,210,0,0" VerticalAlignment="Top" Width="90" Height="40" Click="LoadButton_Click"/>
+    </Grid>
+</Window>
