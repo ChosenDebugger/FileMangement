@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FileMangement"
         mc:Ignorable="d"
-        Title="OptionsWindow" Height="311.333" Width="419">
+        Title="OptionsWindow" Height="311.333" Width="419" Closing="Window_Closing">
     <Grid HorizontalAlignment="Left" Width="409" Height="283" VerticalAlignment="Top" Margin="0,0,0,-1">
         <Grid Margin="126,90,141,147">
             <TextBox Text="123" HorizontalAlignment="Left" Height="20" Margin="0,26,0,-0.333" TextWrapping="Wrap" VerticalAlignment="Top" Width="142" Name="BlockNumText" TextChanged="BlockNumText_TextChanged" FontSize="14"/>

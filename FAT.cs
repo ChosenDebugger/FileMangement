@@ -27,6 +27,7 @@ namespace FileMangement
             ID = blockID;
             data = null;
             nextBlock = -1;
+            type = -1;
         }
     }
 
@@ -53,15 +54,15 @@ namespace FileMangement
                 bitmap.Add(false);
             }
 
-            bestBlockIDForNextFCB = 1;
-            bestBlockIDForNextFile = 2;
+            bestBlockIDForNextFCB = 1; disk[0].type = 1;
+            bestBlockIDForNextFile = 2; disk[1].type = 2;
         }
 
         public void AddNewFolder(FCB newFolder)
         {
             int posID = bestBlockIDForNextFCB;
 
-            newFolder.blockPosition = posID;
+            newFolder.blockPosID = posID;
             
             if(disk[posID-1].FCBList==null)             //FCBList还未初始化的情况
                 disk[posID - 1].FCBList = new List<FCB>();
@@ -77,8 +78,11 @@ namespace FileMangement
                 for (int i = 0; i < disk.Count(); i++)
                 {
                     //这里要满足FCBList不满而且该block没有且不会再下一步被用作file_data
-                    if (disk[i].FCBList.Count() != 4 && bitmap[i]==false && i != bestBlockIDForNextFile - 1)
+                    if (disk[i].FCBList == null && bitmap[i] == false && disk[i].type == 2)
+                    {
                         bestBlockIDForNextFCB = i + 1;
+                        disk[i].type = 1;
+                    }
                 }
             }
         }
@@ -88,6 +92,23 @@ namespace FileMangement
 
         }
 
+        public void RemoveFolder(FCB targetFolder)
+        {
+            disk[targetFolder.blockPosID - 1].FCBList.Remove(targetFolder);
+
+            //如果此时该disk内PCBList已空
+            //就完全初始化
+            if (disk[targetFolder.blockPosID - 1].FCBList.Count() == 0) 
+            {
+                disk[targetFolder.blockPosID - 1].FCBList = null;
+                disk[targetFolder.blockPosID - 1].type = -1;
+            }
+        }
+
+        public  void RemoverFile(FCB targetFile)
+        {
+
+        }
 
     }
 }

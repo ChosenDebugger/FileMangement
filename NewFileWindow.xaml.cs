@@ -19,7 +19,7 @@ namespace FileMangement
     /// </summary>
     public partial class NewFileWindow : Window
     {
-        public string _newFileName;
+        public string _newFileName = null;
 
         public NewFileWindow()
         {
@@ -35,5 +35,6 @@ namespace FileMangement
         {
             this.Close();
         }
+
     }
 }

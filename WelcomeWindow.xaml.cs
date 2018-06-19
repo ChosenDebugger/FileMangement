@@ -32,7 +32,7 @@ namespace FileMangement
             //在MainWindow中打开Options窗体设置初始值
             _systemModel = 1;
 
-            this.Close();
+            this.Hide();
         }
 
         private void LoadButton_Click(object sender, RoutedEventArgs e)
@@ -42,8 +42,13 @@ namespace FileMangement
 
             //打开浏览窗口，加载文件
 
-            this.Close();
+            this.Hide();
 
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            System.Environment.Exit(System.Environment.ExitCode);
         }
     }
 }

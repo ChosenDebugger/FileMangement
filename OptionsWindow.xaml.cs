@@ -33,7 +33,12 @@ namespace FileMangement
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            this.Hide();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            System.Environment.Exit(System.Environment.ExitCode);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace FileMangement
 
         public int ID = -1;
         public int size = -1;
-        public int blockPosition = -1;
+        public int blockPosID = -1;
         public string name = null;
 
         public FCB father = null;

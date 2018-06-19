@@ -19,7 +19,7 @@ namespace FileMangement
     /// </summary>
     public partial class NewFolderWindow : Window
     {
-        public string _newFolderName;
+        public string _newFolderName = null;
 
         public NewFolderWindow()
         {
