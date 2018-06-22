@@ -20,7 +20,7 @@ namespace FileMangement
     {
         public int blockNum = -1;                               //当前文件系统的数据块总数
 
-        private int nextPCBID = 0;                              //下一个生成的PCB的ID
+        private int PCBID = 0;                              //下一个生成的PCB的ID
 
         private FAT disk;                                       //存储对应数目数据块的disk区域
 
@@ -51,12 +51,12 @@ namespace FileMangement
                 LoadSystem();
 
             //配置数据初始化
-            rootFolder = new FCB(Type.Folder, "root", 1, ++nextPCBID);
+            rootFolder = new FCB(Type.Folder, "root", 1, ++PCBID);
 
             currentDirectory = rootFolder;
             operatingFolder = null;
 
-            disk.AddNewFolder(rootFolder);
+            disk.AddNewFCB(rootFolder);
 
             UpdateCurrentDir();
             UpdateFolderCombobox();
@@ -102,41 +102,6 @@ namespace FileMangement
         }
 
         private void LoadSystem()
-        {
-
-        }
-
-        private void NewFolder()
-        {
-
-        }
-
-        private void DeleteFolder()
-        {
-
-        }
-
-        private void EnterFolder()
-        {
-
-        }
-
-        private void ReturnFolder()
-        {
-
-        }
-
-        private void NewFile()
-        {
-            //if (win._newFileName == null) return;
-        }
-
-        private void DeleteFile()
-        {
-
-        }
-
-        private void SaveFile()
         {
 
         }
@@ -205,10 +170,46 @@ namespace FileMangement
         }
         
         //文件下拉表
-        //当前文件信息
-        private void UpdateFileMessage()
+        private void UpdateFileCombobox()
         {
+            FileComboBox.Items.Clear();
 
+            //全新的还没有添加子文件的文件夹
+            if (currentDirectory.fileSon.Count() == 0) return;
+
+            //编辑下拉选单
+            for (int i = 0; i < currentDirectory.fileSon.Count(); i++)
+            {
+                FileComboBox.Items.Add(currentDirectory.fileSon[i].name);
+                if (currentDirectory.fileSon[i] == operatingFile)
+                    FileComboBox.SelectedIndex = i;
+            }
+        }
+
+        //当前文件信息
+        private void UpdateFileText()
+        {
+            FileText.Text = "";
+
+            //operatingFolder 为null时，显示currentDirectory的信息
+            if (operatingFile == null)
+            {
+                //编辑文本
+                FileText.Text += "------------\n\n";
+                FileText.Text += "文件夹名： " + currentDirectory.name + "\n\n";
+                FileText.Text += "文件夹大小： " + currentDirectory.size + "\n\n";
+                FileText.Text += "-------------\n\n";
+            }
+            else
+            {
+                //编辑文本
+                FileText.Text += "------------\n\n";
+                FileText.Text += "文件夹名： " + operatingFile.name + "\n\n";
+                FileText.Text += "文件夹大小： " + operatingFile.size + "\n\n";
+                FileText.Text += "-------------\n\n";
+                FileText.Text += "文件内容： " + disk.ExtractFileContent(operatingFile) + "\n\n";
+                FileText.Text += "-------------\n\n";
+            }
         }
 
         //更新祖先的size
@@ -262,6 +263,10 @@ namespace FileMangement
             return Recursion_Serach(rootFolder, targetName);
         }
 
+        //===================================================================================//
+        //==================================按钮响应函数=====================================//
+        //===================================================================================//
+
         private void NewFolder_Button_Click(object sender, RoutedEventArgs e)
         {
             NewFolderWindow win = new NewFolderWindow();
@@ -270,12 +275,13 @@ namespace FileMangement
 
             string newFolderName = win._newFolderName;
 
-            FCB newFolder = new FCB(Type.Folder, newFolderName, 1, ++nextPCBID);
-            newFolder.father = currentDirectory;
+            FCB newFolder = new FCB(Type.Folder, newFolderName, 1, ++PCBID);
+
+            disk.AddNewFCB(newFolder);                          //将FCB存入disk
+            newFolder.father = currentDirectory;                
 
             currentDirectory.folderSon.Add(newFolder);          //在父节点的文件夹子集中加入
             UpdateAncestorSize(newFolder, newFolder.size);      //祖先节点增重
-            disk.AddNewFolder(newFolder);
 
             operatingFolder = newFolder;
 
@@ -339,6 +345,39 @@ namespace FileMangement
             UpdateFolderText();
         }
 
+        private void NewFile_Button_Click(object sender, RoutedEventArgs e)
+        {   
+            NewFileWindow win = new NewFileWindow();
+            win.ShowDialog();
+            if (win._newFileName == null) return;
+
+            FCB newFile = new FCB(Type.File, win._newFileName, ++PCBID);
+
+            disk.AddNewFCB(newFile);
+            int _size = disk.AddNewFileContent(newFile, win._newFileContent);
+            newFile.size = _size * 4;
+
+            newFile.father = currentDirectory;
+            currentDirectory.fileSon.Add(newFile);
+            UpdateAncestorSize(newFile, newFile.size);
+
+            operatingFile = newFile;
+
+            UpdateFileCombobox();
+            UpdateFileText();
+        }
+
+        private void DeleteFile_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SaveFile_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
         private void FolderComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //要实现切换combobox的时候转换operatingFolder并更新面板信息
@@ -350,9 +389,20 @@ namespace FileMangement
             }
         }
 
+        private void FileComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+        }
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             System.Environment.Exit(System.Environment.ExitCode);
         }
+
+        private void FileText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+
     }
 }

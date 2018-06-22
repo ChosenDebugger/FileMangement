@@ -33,6 +33,8 @@ namespace FileMangement
 
     class FAT
     {
+        public const int BLOCK_CONTENT_LENGTH = 28;
+
         public List<Block> disk;
 
         private List<bool> bitmap;
@@ -54,18 +56,22 @@ namespace FileMangement
                 bitmap.Add(false);
             }
 
-            bestBlockIDForNextFCB = 1; disk[0].type = 1;
-            bestBlockIDForNextFile = 2; disk[1].type = 2;
+            bestBlockIDForNextFCB = 1;
+            disk[0].type = 1;
+            disk[0].FCBList = new List<FCB>();
+
+            bestBlockIDForNextFile = 2;
+            disk[1].type = 2;
         }
 
-        public void AddNewFolder(FCB newFolder)
+        public void AddNewFCB(FCB newFolder)
         {
             int posID = bestBlockIDForNextFCB;
 
             newFolder.blockPosID = posID;
             
-            if(disk[posID-1].FCBList==null)             //FCBList还未初始化的情况
-                disk[posID - 1].FCBList = new List<FCB>();
+            //if(disk[posID-1].FCBList==null)             //FCBList还未初始化的情况
+              //  disk[posID - 1].FCBList = new List<FCB>();
 
             disk[posID - 1].FCBList.Add(newFolder);     //更新disk
 
@@ -77,19 +83,58 @@ namespace FileMangement
                 //寻找下一个放置FCB的磁盘块
                 for (int i = 0; i < disk.Count(); i++)
                 {
-                    //这里要满足FCBList不满而且该block没有且不会再下一步被用作file_data
-                    if (disk[i].FCBList == null && bitmap[i] == false && disk[i].type == 2)
+                    //这里要满足该block没有且不会在下一步被用作file_data
+                    if (disk[i].type == -1 && bitmap[i] == false)
                     {
                         bestBlockIDForNextFCB = i + 1;
                         disk[i].type = 1;
+                        disk[i].FCBList = new List<FCB>();
                     }
                 }
             }
         }
 
-        public void AddNewFile(FCB newFile)
-        {
+        private int Min(int a, int b) { return a < b ? a : b; }
 
+        public int AddNewFileContent(FCB newFile, string fileContent)
+        {
+            //return newFile所占数据块数
+            int contentLength = fileContent.Count();
+            int blockNum = contentLength / BLOCK_CONTENT_LENGTH + 1;
+
+            newFile.beginBlockID = bestBlockIDForNextFile;
+
+            int currentBlockID = -1;
+
+            for (int i = 0; i < blockNum; i++)
+            {
+                currentBlockID = bestBlockIDForNextFile;
+
+                //if (disk[currentBlockID - 1].data == null)
+                //  disk[currentBlockID - 1].data = new string[20];
+                disk[currentBlockID - 1].data = fileContent.Substring(0, Min(BLOCK_CONTENT_LENGTH, fileContent.Length));
+                fileContent.Remove(0, Min(BLOCK_CONTENT_LENGTH, fileContent.Length));
+
+                bitmap[currentBlockID - 1] = true;
+
+                //更新bestBlockIDForNextFile
+                for (int j = 0; j < disk.Count(); j++)
+                {
+                    if (disk[j].type == -1 && bitmap[j] == false)
+                    {
+                        bestBlockIDForNextFile = j + 1;
+                        disk[j].type = 2;
+                        break;
+                    }
+                }
+                //更新指针
+                disk[currentBlockID - 1].nextBlock = bestBlockIDForNextFile;
+            }
+
+            newFile.endBlockID = currentBlockID;
+            disk[currentBlockID - 1].nextBlock = -1;
+            
+            return blockNum;
         }
 
         public void RemoveFolder(FCB targetFolder)
@@ -108,6 +153,23 @@ namespace FileMangement
         public  void RemoverFile(FCB targetFile)
         {
 
+        }
+
+        public string ExtractFileContent(FCB targetFile)
+        {
+            string wholeContent = "";
+
+            int currentBlockID = targetFile.beginBlockID;
+
+            while(true)
+            {
+                wholeContent += disk[currentBlockID - 1].data;
+
+                if (disk[currentBlockID - 1].nextBlock == -1) break;
+                else currentBlockID = disk[currentBlockID - 1].nextBlock - 1;
+            }
+
+            return wholeContent;
         }
 
     }

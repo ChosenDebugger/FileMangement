@@ -27,13 +27,13 @@
         </Grid>
 
         <Grid Margin="415,112,0.333,9.667">
-            <Button Content="新建" Name="NewFile_Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75"/>
-            <Button Content="删除" Name="DeleteFile_Button" HorizontalAlignment="Left" Margin="96,0,0,0" VerticalAlignment="Top" Width="75"/>
-            <Button Content="保存" Name="SaveFile_Button" HorizontalAlignment="Left" Margin="196,0,0,0" VerticalAlignment="Top" Width="75"/>
+            <Button Content="新建" Name="NewFile_Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="NewFile_Button_Click"/>
+            <Button Content="删除" Name="DeleteFile_Button" HorizontalAlignment="Left" Margin="96,0,0,0" VerticalAlignment="Top" Width="75" Click="DeleteFile_Button_Click"/>
+            <Button Content="保存" Name="SaveFile_Button" HorizontalAlignment="Left" Margin="196,0,0,0" VerticalAlignment="Top" Width="75" Click="SaveFile_Button_Click"/>
             <Button Content="" HorizontalAlignment="Left" Margin="293,0,0,0" VerticalAlignment="Top" Width="75"/>
 
-            <ComboBox Name="FileComboBox" HorizontalAlignment="Left" Margin="0,41,0,0" VerticalAlignment="Top" Width="368"/>
-            <TextBox Name="FileText" HorizontalAlignment="Left" Height="228" Margin="0,71,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="368"/>
+            <ComboBox Name="FileComboBox" HorizontalAlignment="Left" Margin="0,41,0,0" VerticalAlignment="Top" Width="368" SelectionChanged="FileComboBox_SelectionChanged"/>
+            <TextBox Name="FileText" HorizontalAlignment="Left" Height="228" Margin="0,71,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="368" TextChanged="FileText_TextChanged"/>
         </Grid>
 
     </Grid>

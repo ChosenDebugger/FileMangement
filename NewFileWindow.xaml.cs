@@ -20,6 +20,7 @@ namespace FileMangement
     public partial class NewFileWindow : Window
     {
         public string _newFileName = null;
+        public string _newFileContent = "";
 
         public NewFileWindow()
         {
@@ -31,10 +32,14 @@ namespace FileMangement
             _newFileName = NewFileName_Text.Text;
         }
 
+        private void NewFileContent_Text_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            _newFileContent = NewFileContent_Text.Text;
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
-
     }
 }
