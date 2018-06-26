@@ -20,6 +20,8 @@ namespace FileMangement
 
         private FCB currentFile = null;
 
+        public const int BLOCK_CONTENT_LENGTH = 12;             //块的数据容量度量
+
         public FileShow(FAT _disk, FCB _currentFile)
         {
             InitializeComponent();
@@ -41,7 +43,7 @@ namespace FileMangement
             string newFileContent = fileEditWindow._newFileContent;
 
             if (newFileContent == null) return;
-            currentFile.size = (newFileContent.Count() / 28 + 1) * 4;
+            currentFile.size = newFileContent.Count() / BLOCK_CONTENT_LENGTH + 1;
             disk.EditFileContent(currentFile, newFileContent);
 
             FileSize_Text.Text = Convert.ToString(currentFile.size);

@@ -25,6 +25,12 @@ namespace FileMangement
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            if (BlockNumText.Text == "")
+            {
+                MessageBox.Show("请先输入磁盘块数");
+                return;
+            }
+
             _blockNum = Convert.ToInt32(BlockNumText.Text);
 
             if (_blockNum > 0)

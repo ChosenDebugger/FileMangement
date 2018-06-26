@@ -13,8 +13,8 @@ namespace FileMangement
         //一个指针——用于链式标记文件物理存储
         public int ID;
 
-        public int type;            //1表示放4个PCB；2表示放长度为28的string+1个指针
-
+        //1表示放4个PCB；2表示放长度为BLOCK_CONTENT_LENGTH的string+1个指针
+        public int type;            
         //type == 1
         public List<FCB> FCBList;
 
@@ -33,7 +33,7 @@ namespace FileMangement
 
     public class FAT
     {
-        public const int BLOCK_CONTENT_LENGTH = 28;
+        public const int BLOCK_CONTENT_LENGTH = 12;
 
         public List<Block> disk;
 

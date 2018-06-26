@@ -19,19 +19,21 @@ namespace FileMangement
 {
     public partial class FolderShow : Window
     {
+        public const int BLOCK_CONTENT_LENGTH = 12;             //块的数据容量度量
+
         private int blockNum = -1;                              //存储器总块数
 
         private FAT disk;                                       //虚拟磁盘
 
-        private int FCBID = -1;                                  //下一个生成的PCB的ID
+        private int FCBID = -1;                                 //下一个生成的PCB的ID
 
         private FCB rootFolder;                                 //根目录节点
 
         private FCB currentDirectory = null;                    //当前所在目录地址
 
-        //private ContextMenu rightClickMenu;                     //右键菜单
+        //private ContextMenu rightClickMenu;                   //右键菜单
 
-        //private FCB operatingFolder = null;                     //当前正在操作的文件夹
+        //private FCB operatingFolder = null;                   //当前正在操作的文件夹
 
         //private FCB currentFile = null;                       //当前正在操作的文件
 
@@ -48,6 +50,45 @@ namespace FileMangement
             disk.AddNewFCB(rootFolder);
             
             Init();
+        }
+
+        //利用重载实现Load
+        public FolderShow(string systemPath)
+        {
+            InitializeComponent();
+
+            StreamReader reader = new StreamReader(systemPath + "\\BlockNum.dat");
+            blockNum = Convert.ToInt16(reader.ReadLine());
+
+            FCBID = 0;
+            disk = new FAT(blockNum);
+
+            SystemRecover(systemPath);
+
+            Init();
+        }
+
+        private void Init()
+        {
+            currentDirectory = rootFolder;
+
+            FCBList.ContextMenu = new System.Windows.Controls.ContextMenu();
+
+            System.Windows.Controls.MenuItem menuItem_Rename =
+                new System.Windows.Controls.MenuItem { Header = "重命名" };
+
+            menuItem_Rename.Click += new RoutedEventHandler(Rename_Click);
+
+            System.Windows.Controls.MenuItem menuItem_Delete =
+                new System.Windows.Controls.MenuItem { Header = "删除" };
+
+            menuItem_Delete.Click += new RoutedEventHandler(Delete_Click);
+
+            FCBList.ContextMenu.Items.Add(menuItem_Rename);
+            FCBList.ContextMenu.Items.Add(menuItem_Delete);
+
+            UpdateCurrentDir();
+            UpdateFCBList();
         }
 
         private void RecoverFile(FCB rootNode, int BlockIndex, string systemPath)
@@ -168,45 +209,6 @@ namespace FileMangement
             rootFolder = new FCB(Type.Folder, "root", ++FCBID);
             //basic Information Recover
             RecoverTree(rootFolder, 1, null, systemPath);
-        }
-
-        //利用重载实现Load
-        public FolderShow(string systemPath)
-        {
-            InitializeComponent();
-
-            StreamReader reader = new StreamReader(systemPath + "\\BlockNum.dat");
-            blockNum = Convert.ToInt16(reader.ReadLine());
-
-            FCBID = 0;
-            disk = new FAT(blockNum);
-
-            SystemRecover(systemPath);
-
-            Init();
-        }
-
-        private void Init()
-        {
-            currentDirectory = rootFolder;
-
-            FCBList.ContextMenu = new System.Windows.Controls.ContextMenu();
-
-            System.Windows.Controls.MenuItem menuItem_Rename = 
-                new System.Windows.Controls.MenuItem { Header = "重命名" };
-
-            menuItem_Rename.Click += new RoutedEventHandler(Rename_Click);
-
-            System.Windows.Controls.MenuItem menuItem_Delete = 
-                new System.Windows.Controls.MenuItem { Header = "删除" };
-
-            menuItem_Delete.Click += new RoutedEventHandler(Delete_Click);
-
-            FCBList.ContextMenu.Items.Add(menuItem_Rename);
-            FCBList.ContextMenu.Items.Add(menuItem_Delete);
-            
-            UpdateCurrentDir();
-            UpdateFCBList();
         }
 
         private void UpdateCurrentDir()
@@ -449,7 +451,7 @@ namespace FileMangement
 
             string newFileName = fileAddWindow._newFileName;
             string newFileContent = fileAddWindow._newFileContent;
-            int size = (newFileContent.Count() / 20 + 1) * 4;
+            int size = newFileContent.Count() / BLOCK_CONTENT_LENGTH + 1;
 
             FCB newFile = new FCB(Type.File, newFileName, size, ++FCBID);
 
@@ -492,6 +494,8 @@ namespace FileMangement
                     currentDirectory = currentDirectory.folderSon[i];
                     UpdateCurrentDir();
                     UpdateFCBList();
+
+                    break;
                 }
             }
 
@@ -499,8 +503,17 @@ namespace FileMangement
             {
                 if (currentDirectory.fileSon[i].name == targetName)
                 {
+                    int beforeSize = currentDirectory.fileSon[i].size;
+
                     FileShow fileShow = new FileShow(disk, currentDirectory.fileSon[i]);
-                    fileShow.Show();
+                    fileShow.ShowDialog();
+
+                    int afterSize = currentDirectory.fileSon[i].size;
+
+                    UpdateAncestorSize(currentDirectory.fileSon[i], afterSize - beforeSize);
+
+                    UpdateCurrentDir();
+                    break;
                 }
             }
         }
@@ -554,7 +567,14 @@ namespace FileMangement
         private void Format_Button_Click(object sender, RoutedEventArgs e)
         {
             Recursion_Delete(rootFolder);
+            disk = null;
             GC.Collect();
+
+            FCBID = 0;
+            disk = new FAT(blockNum);
+
+            rootFolder = new FCB(Type.Folder, "root", 1, ++FCBID);
+            disk.AddNewFCB(rootFolder);
 
             Init();
         }
@@ -576,6 +596,8 @@ namespace FileMangement
 
             if (folderBrowser.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 systemPath = folderBrowser.SelectedPath;
+            else if (folderBrowser.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
+                return;
 
             //清空当前文件夹
             SystemFolderClear(systemPath);
