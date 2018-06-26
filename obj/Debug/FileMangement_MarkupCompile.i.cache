@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\齐旭晨\Desktop\好好xiao习\os\Project_3\FileMangement\FileMangement\App.xaml
-5-2043103769
+91464533809
 
-15-2008165383
-131569487696
-MainWindow.xaml;NewFileWindow.xaml;NewFolderWindow.xaml;OptionsWindow.xaml;WelcomeWindow.xaml;
+19-1458042603
+14-1175798665
+FileAdd.xaml;FileEdit.xaml;FileShow.xaml;FolderAdd.xaml;FolderRename.xaml;FolderShow.xaml;LoadSystem.xaml;MainMenu.xaml;NewSystem.xaml;
 
-False
+True
 

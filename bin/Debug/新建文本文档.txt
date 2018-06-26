@@ -1,0 +1,19 @@
+[ID]  [type]  [name]  [size]  [blockPosID]  [father]  [(FOLDERsonID[0],FOLDERsonID[1]...)(FILEsonID[0],FILEsonID[1]) ]/[beginBlockID]+[endBlockID]
+
+
+
+
+
+¡¾Block¡¿
+
+[type]  [ID]
+
+//type=1
+[FCB] * 4
+
+//type =2
+[data](string)
+[nextBlock](int)
+
+//type =-1
+null

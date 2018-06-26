@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace FileMangement
 {
-    enum Type
+    public enum Type
     {
         NotDefined = 0,
         Folder = 1,
         File = 2,
     }
 
-    class FCB
+    public class FCB
     {
         public Type type;
 

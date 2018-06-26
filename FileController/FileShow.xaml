@@ -1,0 +1,23 @@
+﻿<Window x:Class="FileMangement.FileShow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FileMangement"
+        mc:Ignorable="d"
+        Title="NewFileWindow" Height="450" Width="644">
+    <Grid HorizontalAlignment="Left" Margin="0,0,-6.667,-0.333" Width="644">
+
+        <TextBox Name="NewFileName_Text" HorizontalAlignment="Left" Height="35" Margin="172,32,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="163" FontSize="22"/>
+        <Label Content="文件名：" HorizontalAlignment="Left" Margin="71,31,0,0" VerticalAlignment="Top" Height="36" Width="96" FontSize="20"/>
+
+        <TextBox Name="NewFileContent_Text" HorizontalAlignment="Left" Height="231" Margin="71,162,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="496" FontSize="22"/>
+        <Label Content="请输入文件内容：" HorizontalAlignment="Left" Margin="71,126,0,0" VerticalAlignment="Top" Height="36" Width="194" FontSize="20"/>
+
+        <Button Content="返回" HorizontalAlignment="Left" Margin="419,26,0,0" VerticalAlignment="Top" Width="148" Height="41"/>
+        <TextBox x:Name="NewFileName_Text_Copy" HorizontalAlignment="Left" Height="35" Margin="172,68,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="163" FontSize="22"/>
+        <Label Content="文件大小：" HorizontalAlignment="Left" Margin="71,67,0,0" VerticalAlignment="Top" Height="36" Width="96" FontSize="20"/>
+        <TextBox HorizontalAlignment="Left" Height="2" Margin="0,124,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="637" RenderTransformOrigin="0.5,0.5"/>
+
+    </Grid>
+</Window>

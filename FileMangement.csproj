@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3F5DC4B8-2B17-43F2-91BF-F09D70D91041}</ProjectGuid>
+    <ProjectGuid>{C8A12C46-AD25-470B-ACD6-B90AE4598AD3}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>FileMangement</RootNamespace>
     <AssemblyName>FileMangement</AssemblyName>
@@ -36,6 +36,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -54,21 +55,35 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="FAT.cs" />
-    <Compile Include="FCB.cs" />
-    <Compile Include="NewFileWindow.xaml.cs">
-      <DependentUpon>NewFileWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolderWindow.xaml.cs">
-      <DependentUpon>NewFolderWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="OptionsWindow.xaml.cs">
-      <DependentUpon>OptionsWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="WelcomeWindow.xaml.cs">
-      <DependentUpon>WelcomeWindow.xaml</DependentUpon>
-    </Compile>
-    <Page Include="MainWindow.xaml">
+    <Page Include="FileAdd.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="FileEdit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="FileShow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="FolderAdd.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="FolderRename.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="FolderShow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LoadSystem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainMenu.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -76,28 +91,41 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
+    <Compile Include="FAT.cs" />
+    <Compile Include="FCB.cs" />
+    <Compile Include="FileAdd.xaml.cs">
+      <DependentUpon>FileAdd.xaml</DependentUpon>
     </Compile>
-    <Page Include="NewFileWindow.xaml">
-      <SubType>Designer</SubType>
+    <Compile Include="FileEdit.xaml.cs">
+      <DependentUpon>FileEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FileShow.xaml.cs">
+      <DependentUpon>FileShow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FolderAdd.xaml.cs">
+      <DependentUpon>FolderAdd.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FolderRename.xaml.cs">
+      <DependentUpon>FolderRename.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FolderShow.xaml.cs">
+      <DependentUpon>FolderShow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LoadSystem.xaml.cs">
+      <DependentUpon>LoadSystem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainMenu.xaml.cs">
+      <DependentUpon>MainMenu.xaml</DependentUpon>
+    </Compile>
+    <Page Include="NewSystem.xaml">
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="NewFolderWindow.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="OptionsWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="WelcomeWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NewSystem.xaml.cs">
+      <DependentUpon>NewSystem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -122,6 +150,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
