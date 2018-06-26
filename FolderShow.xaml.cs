@@ -129,7 +129,7 @@ namespace FileMangement
                 singleLine = singleLine.Remove(0, singleLine.IndexOf("(") + 1);
                 while (!singleLine.Substring(0, 1).Equals(")"))
                 {
-                    folderSonIndex.Add(Convert.ToInt16(singleLine.Substring(0, singleLine.IndexOf(" ") + 1)));
+                    folderSonIndex.Add(Convert.ToInt16(singleLine.Substring(0, singleLine.IndexOf(" "))));
                     singleLine = singleLine.Remove(0, singleLine.IndexOf(" ") + 1);
                 }
                 singleLine = singleLine.Remove(0, 1);
@@ -146,7 +146,7 @@ namespace FileMangement
                 singleLine = singleLine.Remove(0, singleLine.IndexOf("(") + 1);
                 while (!singleLine.Substring(0, 1).Equals(")"))
                 {
-                    fileSonIndex.Add(Convert.ToInt16(singleLine.Substring(0, singleLine.IndexOf(" ") + 1)));
+                    fileSonIndex.Add(Convert.ToInt16(singleLine.Substring(0, singleLine.IndexOf(" "))));
                     singleLine = singleLine.Remove(0, singleLine.IndexOf(" ") + 1);
                 }
                 singleLine = singleLine.Remove(0, 1);
@@ -208,7 +208,6 @@ namespace FileMangement
             UpdateCurrentDir();
             UpdateFCBList();
         }
-
 
         private void UpdateCurrentDir()
         {
@@ -398,9 +397,9 @@ namespace FileMangement
             if (name == null) return;
 
             //命名含有非法字符检测
-            if(name.Contains(" "))
+            if (name.Contains(" ") || name == "")
             {
-                System.Windows.MessageBox.Show("含有非法字符“”");
+                System.Windows.MessageBox.Show("含有非法字符");
                 return;
             }
 
@@ -435,9 +434,9 @@ namespace FileMangement
             if (name == null) return;
 
             //命名含有非法字符检测
-            if (name.Contains(" "))
+            if (name.Contains(" ") || name == "") 
             {
-                System.Windows.MessageBox.Show("含有非法字符“”");
+                System.Windows.MessageBox.Show("含有非法字符");
                 return;
             }
 
@@ -481,6 +480,9 @@ namespace FileMangement
 
         private void FCBList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            //无选中项目
+            if (FCBList.SelectedItem == null) return;
+
             string targetName = FCBList.SelectedItem.ToString();
 
             for (int i = 0; i < currentDirectory.folderSon.Count(); i++)
