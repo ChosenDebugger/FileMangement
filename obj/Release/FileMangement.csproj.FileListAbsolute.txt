@@ -28,3 +28,4 @@ C:\Users\齐旭晨\Desktop\好好xiao习\os\Project_3\FileMangement\FileMangemen
 C:\Users\齐旭晨\Desktop\好好xiao习\os\Project_3\FileMangement\FileMangement\obj\Release\FileMangement.csproj.CoreCompileInputs.cache
 C:\Users\齐旭晨\Desktop\好好xiao习\os\Project_3\FileMangement\FileMangement\obj\Release\FileMangement.exe
 C:\Users\齐旭晨\Desktop\好好xiao习\os\Project_3\FileMangement\FileMangement\obj\Release\FileMangement.pdb
+C:\Users\齐旭晨\Desktop\好好xiao习\os\Project_3\FileMangement\FileMangement\obj\Release\FileMangement.csprojAssemblyReference.cache

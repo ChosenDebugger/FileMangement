@@ -48,7 +48,7 @@ namespace FileMangement
 
             rootFolder = new FCB(Type.Folder, "root", 1, ++FCBID);
             disk.AddNewFCB(rootFolder);
-            
+
             Init();
         }
 
@@ -145,7 +145,7 @@ namespace FileMangement
             disk.disk[rootNode.blockPosID - 1].FCBList.Add(rootNode);
             //更新位图
             disk.bitmap[rootNode.blockPosID - 1] = true;
-            
+
             if (rootNode.type == Type.File)
             {
                 //父节点添加该节点指针
@@ -268,7 +268,7 @@ namespace FileMangement
         private FCB Recursion_Serach_Folder(FCB rootNode, string targetName)
         {
             if (rootNode.name == targetName) return rootNode;
-            
+
             for (int i = 0; i < rootNode.folderSon.Count(); i++)
             {
                 FCB currentNode = Recursion_Serach_Folder(rootNode.folderSon[i], targetName);
@@ -276,7 +276,7 @@ namespace FileMangement
                 if (currentNode == null) continue;
                 if (currentNode.name == targetName) return currentNode;
             }
-          
+
             return null;
         }
 
@@ -295,17 +295,17 @@ namespace FileMangement
             return null;
         }
 
-        private FCB Recursion_Search_File(FCB rootNode,string targetName)
+        private FCB Recursion_Search_File(FCB rootNode, string targetName)
         {
             for (int i = 0; i < rootNode.fileSon.Count(); i++)
             {
                 FCB currentNode = rootNode.fileSon[i];
-                
+
                 if (currentNode.name == targetName)
                     return currentNode;
             }
 
-            for (int i = 0; i < rootNode.folderSon.Count(); i++) 
+            for (int i = 0; i < rootNode.folderSon.Count(); i++)
             {
                 FCB currentNode = Recursion_Search_File(rootNode.folderSon[i], targetName);
 
@@ -344,13 +344,10 @@ namespace FileMangement
                 Recursion_Delete(rootNode.folderSon[i]);
             }
 
-            if (rootNode != rootFolder)
+            for (int i = 0; i < rootNode.fileSon.Count(); i++)
             {
-                for (int i = 0; i < rootNode.fileSon.Count(); i++)
-                {
-                    rootNode.father.fileSon.Remove(rootNode);
-                    disk.RemoveFileContent(rootNode);
-                }
+                rootNode.fileSon.Remove(rootNode);
+                disk.RemoveFileContent(rootNode.fileSon[i]);
             }
             
             //释放内存
